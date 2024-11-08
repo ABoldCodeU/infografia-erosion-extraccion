@@ -1,0 +1,307 @@
+import React, { useState } from 'react';
+import {
+  ImageIcon,
+  Maximize,
+  Code,
+  Fingerprint,
+  Zap,
+  ChevronDown,
+  ChevronUp,
+  Eye,
+  BrainCircuit,
+  Sliders,
+  Layers,
+  GitMerge
+} from 'lucide-react';
+
+const ComparisonCard = ({ title, icon: Icon, erosion, edge, details, imageSpace = false }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+      <div className="p-6 cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+              <Icon className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-800">{title}</h3>
+          </div>
+          {isExpanded ? (
+            <ChevronUp className="w-6 h-6 text-gray-400" />
+          ) : (
+            <ChevronDown className="w-6 h-6 text-gray-400" />
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          <div className="p-4 bg-blue-50 rounded-lg">
+            <h4 className="font-semibold text-blue-700 mb-2">Erosión</h4>
+            <p className="text-gray-700 line-clamp-2">{erosion}</p>
+          </div>
+          <div className="p-4 bg-purple-50 rounded-lg">
+            <h4 className="font-semibold text-purple-700 mb-2">Extracción de Bordes</h4>
+            <p className="text-gray-700 line-clamp-2">{edge}</p>
+          </div>
+        </div>
+      </div>
+
+      {isExpanded && (
+        <div className="px-6 pb-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <div className="p-4 bg-blue-50 rounded-lg mb-4">
+                <h4 className="font-semibold text-blue-700 mb-2">Erosión</h4>
+                <p className="text-gray-700">{erosion}</p>
+                <ul className="mt-4 space-y-2">
+                  {details?.erosion?.map((detail, index) => (
+                    <li key={index} className="flex items-start gap-2 text-gray-600">
+                      <div className="w-1.5 h-1.5 mt-1.5 rounded-full bg-blue-400" />
+                      {detail}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {imageSpace && (
+                <div className="bg-blue-100/50 rounded-lg p-4 h-48 flex items-center justify-center border-2 border-dashed border-blue-200">
+                  <p className="text-blue-400 text-sm">Espacio para imagen de ejemplo</p>
+                </div>
+              )}
+            </div>
+            <div>
+              <div className="p-4 bg-purple-50 rounded-lg mb-4">
+                <h4 className="font-semibold text-purple-700 mb-2">Extracción de Bordes</h4>
+                <p className="text-gray-700">{edge}</p>
+                <ul className="mt-4 space-y-2">
+                  {details?.edge?.map((detail, index) => (
+                    <li key={index} className="flex items-start gap-2 text-gray-600">
+                      <div className="w-1.5 h-1.5 mt-1.5 rounded-full bg-purple-400" />
+                      {detail}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {imageSpace && (
+                <div className="bg-purple-100/50 rounded-lg p-4 h-48 flex items-center justify-center border-2 border-dashed border-purple-200">
+                  <p className="text-purple-400 text-sm">Espacio para imagen de ejemplo</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const DifferencesGuide = () => {
+  const differences = [
+    {
+      title: "Fundamento Matemático",
+      icon: BrainCircuit,
+      erosion: "Operación morfológica basada en teoría de conjuntos y operaciones de mínimos locales",
+      edge: "Cálculo de gradientes o derivadas para detectar cambios de intensidad",
+      details: {
+        erosion: [
+          "Utiliza elemento estructurante",
+          "Opera sobre valores de intensidad",
+          "Basado en operaciones de mínimo"
+        ],
+        edge: [
+          "Utiliza operadores de gradiente",
+          "Calcula diferencias entre píxeles",
+          "Basado en derivadas direccionales"
+        ]
+      },
+      imageSpace: true
+    },
+    {
+      title: "Efecto Visual",
+      icon: Eye,
+      erosion: "Reduce y simplifica estructuras en la imagen, eliminando detalles pequeños",
+      edge: "Resalta los contornos y transiciones bruscas de intensidad",
+      details: {
+        erosion: [
+          "Objetos se vuelven más pequeños",
+          "Elimina ruido tipo sal",
+          "Puede eliminar detalles finos"
+        ],
+        edge: [
+          "Genera líneas de contorno",
+          "Preserva ubicación de bordes",
+          "Destaca cambios de intensidad"
+        ]
+      },
+      imageSpace: true
+    },
+    {
+      title: "Proceso y Naturaleza",
+      icon: Fingerprint,
+      erosion: "Modifica la estructura morfológica de los objetos en la imagen",
+      edge: "Detecta y resalta transiciones sin modificar la estructura original",
+      details: {
+        erosion: [
+          "Proceso transformativo",
+          "Altera formas y tamaños",
+          "Efecto acumulativo"
+        ],
+        edge: [
+          "Proceso de detección",
+          "Mantiene dimensiones originales",
+          "Efecto localizado"
+        ]
+      }
+    },
+    {
+      title: "Sensibilidad al Ruido",
+      icon: Zap,
+      erosion: "Alta resistencia al ruido tipo sal, efectiva para limpieza",
+      edge: "Muy sensible al ruido, puede detectar falsos bordes",
+      details: {
+        erosion: [
+          "Elimina ruido tipo sal",
+          "Reduce artefactos pequeños",
+          "Robusta ante variaciones locales"
+        ],
+        edge: [
+          "Amplifica ruido",
+          "Requiere pre-procesamiento",
+          "Sensible a variaciones locales"
+        ]
+      },
+      imageSpace: true
+    },
+    {
+      title: "Aplicaciones Principales",
+      icon: Code,
+      erosion: "Limpieza de imágenes, separación de objetos y simplificación de formas",
+      edge: "Detección de contornos, segmentación y análisis de características",
+      details: {
+        erosion: [
+          "Pre-procesamiento de imágenes",
+          "Análisis de formas",
+          "Filtrado morfológico"
+        ],
+        edge: [
+          "Reconocimiento de objetos",
+          "Análisis de características",
+          "Segmentación de imágenes"
+        ]
+      }
+    },
+    {
+      title: "Preservación de Información",
+      icon: BrainCircuit,
+      erosion: "Modifica permanentemente la información de la imagen, pudiendo perder detalles finos",
+      edge: "Preserva la información original mientras resalta las transiciones importantes",
+      details: {
+        erosion: [
+          "Pérdida irreversible de detalles pequeños",
+          "Reducción de área y perímetro",
+          "Modificación de texturas finas"
+        ],
+        edge: [
+          "Mantiene la información original",
+          "Conserva detalles finos",
+          "No altera la escala de la imagen"
+        ]
+      },
+      imageSpace: true
+    },
+    {
+      title: "Complejidad Computacional",
+      icon: Code,
+      erosion: "Operación relativamente simple que requiere comparaciones locales",
+      edge: "Puede requerir cálculos más complejos según el operador utilizado",
+      details: {
+        erosion: [
+          "Operaciones de mínimo local",
+          "Procesamiento por ventana fija",
+          "Complejidad O(n*m*k) donde k es tamaño del elemento estructurante"
+        ],
+        edge: [
+          "Cálculos de gradientes en múltiples direcciones",
+          "Posible necesidad de filtrado previo",
+          "Complejidad variable según el operador"
+        ]
+      }
+    },
+    {
+      title: "Parámetros de Control",
+      icon: Sliders,
+      erosion: "Elemento estructurante define completamente el comportamiento",
+      edge: "Múltiples parámetros afectan la detección de bordes",
+      details: {
+        erosion: [
+          "Tamaño del elemento estructurante",
+          "Forma del elemento estructurante",
+          "Número de iteraciones"
+        ],
+        edge: [
+          "Umbral de detección",
+          "Tipo de operador (Sobel, Prewitt, etc.)",
+          "Parámetros de suavizado previo"
+        ]
+      },
+      imageSpace: true
+    },
+    {
+      title: "Resultados en Secuencias",
+      icon: Layers,
+      erosion: "Efectos acumulativos que pueden eliminar estructuras progresivamente",
+      edge: "Resultados consistentes independientes de aplicaciones repetidas",
+      details: {
+        erosion: [
+          "Efecto acumulativo en aplicaciones sucesivas",
+          "Puede eliminar objetos completos",
+          "Útil para análisis multiescala"
+        ],
+        edge: [
+          "No cambia con aplicaciones repetidas",
+          "Mantiene la posición de los bordes",
+          "Ideal para seguimiento temporal"
+        ]
+      },
+      imageSpace: true
+    },
+    {
+      title: "Integración con Otros Métodos",
+      icon: GitMerge,
+      erosion: "Base para operaciones morfológicas más complejas",
+      edge: "Complementa técnicas de segmentación y reconocimiento",
+      details: {
+        erosion: [
+          "Componente de apertura y cierre",
+          "Parte de operaciones hit-or-miss",
+          "Base para esqueletización"
+        ],
+        edge: [
+          "Input para segmentación",
+          "Base para detección de características",
+          "Complemento para reconocimiento de patrones"
+        ]
+      }
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+          Erosión vs Extracción de Bordes
+        </h1>
+        <p className="text-center text-gray-600 mb-12">
+          Análisis comparativo de técnicas fundamentales en procesamiento de imágenes
+        </p>
+
+        <div className="grid gap-6">
+          {differences.map((diff, index) => (
+            <ComparisonCard key={index} {...diff} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DifferencesGuide;
